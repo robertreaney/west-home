@@ -19,7 +19,7 @@ Path('plot.png').unlink(missing_ok=True) # idk why my machine is making me do th
 # Plot the map and overlay the points
 fig, ax = plt.subplots(figsize=(12, 8))
 usa_map.plot(ax=ax, color='lightgray', edgecolor='black')  # Plot the USA map
-gdf_points.plot(ax=ax, color='blue', markersize=5, alpha=0.7)  # Overlay the points
+gdf_points.plot(ax=ax, color=gdf_points['IS_VALID'].map({True: 'green', False: 'red'}), markersize=5, alpha=0.7)  # Overlay the points
 
 ax.set_xlim(BOUNDING_BOX['min_lon'], BOUNDING_BOX['max_lon'])
 ax.set_ylim(BOUNDING_BOX['min_lat'], BOUNDING_BOX['max_lat'])

@@ -10,3 +10,5 @@ wheels/
 .venv
 data
 *.png
+plot_airports.png
+plot.png

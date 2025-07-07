@@ -21,13 +21,18 @@ climate['ANN-SNOW-NORMAL'].describe()
 climate.shape
 
 # Filter the climate data for points with ANN-SNOW-NORMAL > 36
-df = climate[climate['ANN-SNOW-NORMAL'] > 48]
-df = climate[climate['ANN-SNOW-AVGNDS-GE030TI'] >= 17]
+# df = climate[climate['ANN-SNOW-NORMAL'] > 48]
+# df = climate[climate['ANN-SNOW-AVGNDS-GE030TI'] >= 17]
+# df
+
+climate['IS_VALID'] = (climate['ANN-SNOW-AVGNDS-GE030TI'] >= 17)
+
+df = climate.copy()
 
 # Create a GeoDataFrame for the points
 gdf_points = gpd.GeoDataFrame(
     df,
-    geometry=gpd.points_from_xy(df['LONGITUDE'], df['LATITUDE'])
+    geometry=gpd.points_from_xy(df['LONGITUDE'], df['LATITUDE']),
 )
 
 # Save the GeoDataFrame to a GeoJSON file

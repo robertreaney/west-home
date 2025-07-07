@@ -12,6 +12,7 @@ plot:
     bin/python src/plot.py
     
 run:
+    rm plot_airports.png || true
     bin/python src/run.py
 # Recipe to run both scripts sequentially
 run-all: etl plot

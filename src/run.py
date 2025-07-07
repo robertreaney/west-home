@@ -49,7 +49,9 @@ gdf_airports = gdf_airports.set_crs(epsg=4326, allow_override=True)
 gdf_airports = gdf_airports.to_crs(epsg=3395)
 
 # Create buffer zones (100 miles = 160934 meters)
-gdf_airports['buffer'] = gdf_airports.geometry.buffer(160934)
+gdf_airports['buffer'] = gdf_airports.geometry.buffer(1609.34* 250)
+gdf_airports['buffered'] = gdf_airports.geometry.apply(lambda point: point.buffer(160934.))
+
 
 # Convert back to WGS84 for plotting
 gdf_airports = gdf_airports.to_crs(epsg=4326)
@@ -64,8 +66,13 @@ usa_map = usa_map.set_crs(epsg=4326, allow_override=True)
 
 # Plot the map and overlay the buffers
 fig, ax = plt.subplots(figsize=(16, 10))
+
+# usa outline
 usa_map.plot(ax=ax, color='lightgray', edgecolor='black')  # Plot the USA map
-gdf_airports.plot(ax=ax, color='red', markersize=5, alpha=0.7)  # Plot airport points
+# airport dots
+gdf_airports.plot(ax=ax, color='blue', markersize=5, alpha=0.7)  # Plot airport points
+
+# 100 mil radius
 gpd.GeoDataFrame(geometry=gdf_airports['buffer']).plot(ax=ax, color='blue', alpha=0.3)  # Plot buffer zones
 
 

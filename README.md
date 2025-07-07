@@ -1,6 +1,6 @@
 # House Hunter
 
-This repo creates intelligent views of the USA to find a dream home for Wes & Kristi.
+This repo creates intelligent views of the USA to find a dream home for West & Kristi.
 
 # Requirements
 

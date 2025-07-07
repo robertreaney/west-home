@@ -9,4 +9,10 @@ dependencies = [
     "geopandas>=1.1.1",
     "matplotlib>=3.10.3",
     "pandas>=2.3.0",
+    "structlog>=25.4.0",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=8.4.1",
 ]

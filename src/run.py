@@ -1,53 +1,37 @@
 import pandas as pd
 import geopandas as gpd
-from shapely.geometry import Point
 import matplotlib.pyplot as plt
+import structlog as sl
 
 from src.constants import BOUNDING_BOX
+from src.utils import dms_to_decimal
 
-def dms_to_decimal(dms):
-    try:
-        # Remove directional letters and split the DMS string into components
-        dms = dms.strip().upper()  # Ensure consistent formatting
-        parts = dms.replace('W', '').replace('E', '').replace('N', '').replace('S', '').split('-')
-        
-        # Ensure the DMS string has exactly 3 components (degrees, minutes, seconds)
-        if len(parts) != 3:
-            raise ValueError(f"Invalid DMS format: {dms}")
-        
-        degrees = float(parts[0])
-        minutes = float(parts[1])
-        seconds = float(parts[2])
-        
-        # Convert to decimal degrees
-        decimal = degrees + (minutes / 60) + (seconds / 3600)
-        
-        # Handle negative values for west and south coordinates
-        if 'W' in dms or 'S' in dms:
-            decimal = -decimal
-        
-        return decimal
-    except Exception as e:
-        print(f"Error converting DMS to decimal: {e}")
-        return None  # Return None for invalid DMS strings
-
-# Example DMS strings
-dms_values = [
-    "176-38-32.9277W",
-    "37-46-44.9277N",
-    "122-25-9.9277W",
-    "INVALID-DMS"
-]
-
-# Convert DMS to decimal degrees
-for dms in dms_values:
-    print(f"DMS: {dms} -> Decimal: {dms_to_decimal(dms)}")
+logger = sl.get_logger(__name__)
 
 # Load airport data
 airports = pd.read_csv('data/usairports.csv')  # Replace with your actual file path
 
 # public only
 airports = airports[airports.use == 'PU']
+
+airports.columns
+airports.head()
+
+# # checkout some airports we know for cert types
+# airports[airports.location_id.str.contains('RDU')].to_dict(orient='records')
+# airports[airports.location_id.str.contains('CLT')].to_dict(orient='records')
+# airports[airports.location_id.str.contains('ORF')].to_dict(orient='records')
+
+# airports[airports.state=='VA'].location_id.unique()
+
+# from rdu. gives 23 airports
+a = airports[airports.cert_type_date.str.contains('I D S', na=False)]
+
+# fromc lt. gives 28
+# b = airports[airports.cert_type_date.str.contains('I E S', na=False)]
+b = airports[airports.cert_type_date.str.contains('I', na=False)]
+
+airports = pd.concat([a, b], ignore_index=True)
 
 airports['arp_longitude'] = airports['arp_longitude'].apply(dms_to_decimal)
 airports['arp_latitude'] = airports['arp_latitude'].apply(dms_to_decimal)

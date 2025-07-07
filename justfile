@@ -15,3 +15,7 @@ run:
     bin/python src/run.py
 # Recipe to run both scripts sequentially
 run-all: etl plot
+
+# run test suite
+test:
+    bin/python -m pytest

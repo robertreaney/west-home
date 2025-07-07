@@ -16,6 +16,7 @@ This repo uses these tools:
 These datasets need to be downloaded manually
 
 - `data/usaairports.csv` - https://openintro.org/data/index.php?data=usairports
+    - WARNING: i see some airports msising from this. need to data
 - `data/noaa/*` - run these bash commands from project root to get the data
     - `aws s3 sync s3://noaa-normals-pds/normals-annualseasonal/2006-2020/ data/noaa`
     - `aws s3 sync s3://noaa-normals-pds/normals-annualseasonal/access/ data/noaa/root_access`

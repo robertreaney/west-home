@@ -1,21 +1,15 @@
 #!/usr/bin/env -S just --justfile
 
 # Define the default recipe
-default: run-all
+default: etl
 
-# Recipe to run the ETL script
+# run snowfall filter
+snow:
+    bin/python src/1_snowfall.py
+
+# all
 etl:
-    bin/python src/etl.py
-
-# Recipe to run the Plot script
-plot:
-    bin/python src/plot.py
-    
-run:
-    rm plot_airports.png || true
-    bin/python src/run.py
-# Recipe to run both scripts sequentially
-run-all: etl plot
+    snow
 
 # run test suite
 test:
